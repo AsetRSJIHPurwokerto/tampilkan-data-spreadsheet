@@ -17,20 +17,33 @@
     <thead><tr><th>Nama</th><th>Email</th><th>Kota</th></tr></thead>
     <tbody></tbody>
   </table>
+
   <script>
-    const URL = "https://script.google.com/macros/s/AKfycbzznn7X_FwPB0bgASlyK7RupCuPnNiO0fWkwTp25P1zgqw-E_jjgBGo381nrMKlYlcvCQ/exec"; // Ganti dengan URL Web App kamu
+    const URL = "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLilXnk7jddITcolwV4Uf-iT5FYST5rPjZhG-FprPEkN1AjmaYgdjHXUol64r2bSkqMXtdK8F5Gnk7hpaF8EDv1jquSk70Ua3Gpzam6zkuz7IcHTnccWaYDU3RQm51BTsgBfj9Kem_-h7XFP9LJ_ydlZ0s4hPKJpyvA__qJpzqh4DHgqKssKoXV-o_4QPCcCb4OuwTmErIsVs4sL4MhtrwhRhy2rnvYWAXAOGANrvamXtnCBoS8oz7srTzdbeJs0uFIfqTMtq3CP0p4FKS-V9KveCPZlIlGvLEto1zZO&lib=MlFSexLfy-q-BkhtuqlB2SsUyQsaUoTyN";
 
     fetch(URL)
       .then(res => res.json())
       .then(data => {
         const tbody = document.querySelector("#data-table tbody");
-        data.forEach(row => {
+
+        // Filter baris yang memiliki semua kolom kosong
+        const filtered = data.filter(row =>
+          row.Nama || row.Email || row.Kota
+        );
+
+        filtered.forEach(row => {
           const tr = document.createElement("tr");
-          tr.innerHTML = `<td>${row.Nama}</td><td>${row.Email}</td><td>${row.Kota}</td>`;
+          tr.innerHTML = `
+            <td>${row.Nama || "-"}</td>
+            <td>${row.Email || "-"}</td>
+            <td>${row.Kota || "-"}</td>`;
           tbody.appendChild(tr);
         });
       })
-      .catch(err => console.error("Gagal ambil data:", err));
+      .catch(err => {
+        console.error("Gagal ambil data:", err);
+        alert("Gagal mengambil data.");
+      });
   </script>
 </body>
 </html>
