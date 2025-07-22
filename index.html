@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Data dari Spreadsheet</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background-color: #f0f0f0; }
+  </style>
+</head>
+<body>
+  <h2>Data dari Google Spreadsheet</h2>
+  <table id="data-table">
+    <thead><tr><th>Nama</th><th>Email</th><th>Kota</th></tr></thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    const URL = "https://script.google.com/macros/s/AKfycbzznn7X_FwPB0bgASlyK7RupCuPnNiO0fWkwTp25P1zgqw-E_jjgBGo381nrMKlYlcvCQ/exec"; // Ganti dengan URL Web App kamu
+
+    fetch(URL)
+      .then(res => res.json())
+      .then(data => {
+        const tbody = document.querySelector("#data-table tbody");
+        data.forEach(row => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `<td>${row.Nama}</td><td>${row.Email}</td><td>${row.Kota}</td>`;
+          tbody.appendChild(tr);
+        });
+      })
+      .catch(err => console.error("Gagal ambil data:", err));
+  </script>
+</body>
+</html>
