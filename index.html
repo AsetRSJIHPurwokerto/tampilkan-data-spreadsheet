@@ -3,47 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Data dari Spreadsheet</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    th { background-color: #f0f0f0; }
-  </style>
+  <title>Nama dari A2</title>
 </head>
 <body>
-  <h2>Data dari Google Spreadsheet</h2>
-  <table id="data-table">
-    <thead><tr><th>Nama</th><th>Email</th><th>Kota</th></tr></thead>
-    <tbody></tbody>
-  </table>
+  <h2>Nama di A2:</h2>
+  <p id="output">Memuat...</p>
 
   <script>
     const URL = "https://script.google.com/macros/s/AKfycbzznn7X_FwPB0bgASlyK7RupCuPnNiO0fWkwTp25P1zgqw-E_jjgBGo381nrMKlYlcvCQ/exec";
 
-    fetch(URL)
+    fetch(URL + "?t=" + new Date().getTime())
       .then(response => response.json())
       .then(data => {
-        const tbody = document.querySelector("#data-table tbody");
-
-        // Filter baris yang kosong
-        const filtered = data.filter(row =>
-          row.Nama || row.Email || row.Kota
-        );
-
-        // Tampilkan ke tabel
-        filtered.forEach(row => {
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td>${row.Nama || "-"}</td>
-            <td>${row.Email || "-"}</td>
-            <td>${row.Kota || "-"}</td>`;
-          tbody.appendChild(tr);
-        });
+        document.getElementById("output").textContent = data.nama || "(Kosong)";
       })
       .catch(error => {
-        console.error("Gagal ambil data:", error);
-        alert("Gagal mengambil data dari Spreadsheet.");
+        console.error("Gagal:", error);
+        document.getElementById("output").textContent = "Gagal mengambil data.";
       });
   </script>
 </body>
