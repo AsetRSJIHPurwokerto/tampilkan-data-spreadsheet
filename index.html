@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Data dari Spreadsheet</title>
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; }
@@ -19,18 +19,19 @@
   </table>
 
   <script>
-    const URL = "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLilXnk7jddITcolwV4Uf-iT5FYST5rPjZhG-FprPEkN1AjmaYgdjHXUol64r2bSkqMXtdK8F5Gnk7hpaF8EDv1jquSk70Ua3Gpzam6zkuz7IcHTnccWaYDU3RQm51BTsgBfj9Kem_-h7XFP9LJ_ydlZ0s4hPKJpyvA__qJpzqh4DHgqKssKoXV-o_4QPCcCb4OuwTmErIsVs4sL4MhtrwhRhy2rnvYWAXAOGANrvamXtnCBoS8oz7srTzdbeJs0uFIfqTMtq3CP0p4FKS-V9KveCPZlIlGvLEto1zZO&lib=MlFSexLfy-q-BkhtuqlB2SsUyQsaUoTyN";
+    const URL = "https://script.google.com/macros/s/AKfycbzznn7X_FwPB0bgASlyK7RupCuPnNiO0fWkwTp25P1zgqw-E_jjgBGo381nrMKlYlcvCQ/exec";
 
     fetch(URL)
-      .then(res => res.json())
+      .then(response => response.json())
       .then(data => {
         const tbody = document.querySelector("#data-table tbody");
 
-        // Filter baris yang memiliki semua kolom kosong
+        // Filter baris yang kosong
         const filtered = data.filter(row =>
           row.Nama || row.Email || row.Kota
         );
 
+        // Tampilkan ke tabel
         filtered.forEach(row => {
           const tr = document.createElement("tr");
           tr.innerHTML = `
@@ -40,9 +41,9 @@
           tbody.appendChild(tr);
         });
       })
-      .catch(err => {
-        console.error("Gagal ambil data:", err);
-        alert("Gagal mengambil data.");
+      .catch(error => {
+        console.error("Gagal ambil data:", error);
+        alert("Gagal mengambil data dari Spreadsheet.");
       });
   </script>
 </body>
